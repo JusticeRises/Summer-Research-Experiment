@@ -1,5 +1,4 @@
 init:
-
     #screen size setup
     $ config.screen_width = 800
     $ config.screen_height = 600
@@ -151,7 +150,7 @@ init:
             if fileTaxes == 3:
                 renpy.show("img_fileTaxes_working", at_list=[placeListItem(spacing)])
                 spacing += .05
-            if fileTaxes & fileTaxes != 3 & fileTaxes != 0:
+            if fileTaxes == 1:
                 renpy.show("img_fileTaxes", at_list=[placeListItem(spacing)])
                 spacing += .05
 
@@ -161,7 +160,7 @@ init:
             if friends == 3:
                 renpy.show("img_friends_working", at_list=[placeListItem(spacing)])
                 spacing += .05
-            if friends & friends != 3 & friends != 0:
+            if friends == 1:
                 renpy.show("img_friends", at_list=[placeListItem(spacing)])
                 spacing += .05
 
@@ -171,7 +170,7 @@ init:
             if homework == 3:
                 renpy.show("img_homework_working", at_list=[placeListItem(spacing)])
                 spacing += .05
-            if homework & homework != 3 & homework != 0:
+            if homework == 1:
                 renpy.show("img_homework", at_list=[placeListItem(spacing)])
                 spacing += .05
 
@@ -181,7 +180,7 @@ init:
             if shopping == 3:
                 renpy.show("img_shopping_working", at_list=[placeListItem(spacing)])
                 spacing += .05
-            if shopping & shopping != 3 & shopping != 0:
+            if shopping == 1:
                 renpy.show("img_shopping", at_list=[placeListItem(spacing)])
                 spacing += .05
 
@@ -433,30 +432,23 @@ label choices:
             $ fileTaxes = 3
             $ create_menu_function(checkListDist)
             call taxes from _call_taxes_1
-            $ fileTaxes = 0
             jump choices
         "Hang out with Friends" if friends:
             "Have fun with yo friends dawg!"
             $ friends = 3
             $ create_menu_function(checkListDist)
             call friends from _call_friends_1
-            $ friends = 0
-            $ create_menu_function(checkListDist)
             jump choices
         "Do Homework" if homework:
             $ homework = 3
             $ create_menu_function(checkListDist)
             call homework from _call_homework_1
-            $ homework = 0
-            $ create_menu_function(checkListDist)
             jump choices
         "Go Shopping" if shopping:
             "What? You think you are some form of responsible adult now? Fine. Go shopping."
             $ shopping = 3
             $ create_menu_function(checkListDist)
             call shopping from _call_shopping_1
-            $ shopping = 0
-            $ create_menu_function(checkListDist)
             jump choices
         "Go to Bed" if not(fileTaxes) and not(friends) and not(shopping) and not(homework):
             jump ending
@@ -608,10 +600,14 @@ label taxes:
     "Feel good about yourself."
     "That was grunge work and you know it, so thankfully it is now out of the way."
 
+    $ fileTaxes = 0
     jump choices
 
 label friends:
     "Friends"
+
+    $ friends = 0
+    jump choices
 
 label homework:
     "Ah slave work. \n"
@@ -955,6 +951,9 @@ label shopping:
 
     "You feel a little drained after that whole ordeal and actually feel a little exhausted."
 
+    $ shopping = 0
+    jump choices
+
 label ending:
     scene room_night with dissolve
     $ create_menu_function(checkListDist)
@@ -973,7 +972,6 @@ label ending:
 #     hide text with dissolve
 #
 #     return
-
 
     return
 
