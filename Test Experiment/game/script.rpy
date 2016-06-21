@@ -51,6 +51,7 @@ init:
     image living_room = "living_room.png"
     image cave = "cave.png"
     image store = "store.png"
+    image friends_house = "friends_house.png"
 
     # Clock Manipulations
     transform rotateshort:
@@ -524,7 +525,7 @@ label taxes:
     menu:
         "What would you like to do?"
         "PRESS IT BOI!":
-            $ addonTime = 2
+            $ addonTime = 5
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
@@ -534,7 +535,7 @@ label taxes:
             hide popup
             "Feel safe."
         "Cancel out of that crap":
-            $ addonTime = 7
+            $ addonTime = 20
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
@@ -549,9 +550,9 @@ label taxes:
 
     "Your accountant is such a kind guy (so kind)."
     "He gave you several ways that he would accept the sensitive documents from you."
-    "Email, \n"
-    extend "set up and send through PGP encrypted email, \n"
-    extend "or a personal hand-delivered approach (half hour drive there and back)."
+    "1. Email \n"
+    extend "2. Set up and send through PGP encrypted email \n"
+    extend "3. Hand-deliver the sucker (half hour drive there and back)"
 
     menu:
         "How would you like to give da goods to your accountant?"
@@ -602,11 +603,217 @@ label taxes:
     jump choices
 
 label friends:
-    "YES!"
+    "YES! "
     extend "The most socially invigorating thing on your todo list and you are about to embark on it."
 
     "Your friends have been planning this for ages."
     "First step on the agenda is to watch the latest and greatest movie in your friend groups absolute favorite movie series: {i}Love Comes Softly{/i}."
+    "What can I say? \n"
+    "You guys are all just a bunch of suckers for a good 'ol chick flick."
+    "If you feel any confusion about that right now, just know that this is your life, not mine."
+    "I can’t do anything about it."
+    "If you are happy about it then... "
+    extend "uh… "
+    extend "good for you!"
+
+    "Next you and your friends have a tickets to go spelunking in a cave not too far from where you live."
+    "Absolutely stellar!"
+    "So let’s get this party started!"
+
+    "Let’s be honest."
+    "Your crib is a little too small to chill with the dawgs."
+    "So, you guys all opted to meet a few blocks down the road at one of your friend’s house who has a truly immersive 7-Dimensional theater system that allows you to enjoy your movie while being able to literally feel the emotions, smell the love, and experience the movie as if it was your own sad drama filled life."
+
+    scene friends_house with dissolve
+    $ create_menu_function(checkListDist)
+
+    "But when you get there, dreams are crushed and hopes are dashed against the harsh harsh rocks of cheapened reality."
+    "Your friends never bought the movie! (Thanks, Obama!)"
+    "Knowing you were going to watch this movie was literally the only thing keeping you going throughout the week."
+    "You HAVE to watch it."
+    "(Wow. You are really sad, aren't you?)"
+
+    "After doing a couple of quick searches you are dismayed to find out that it was a direct-to-DVD (who woulda guessed?) and it was never released digitally."
+    "You could go to the store to pick it up, but that would take time you are not sure you want to sacrifice."
+    "However, you know they have it because you were able to check online first."
+    "You could always pirate it and then buy it later the next time you go to the store."
+    "You saw a great site in one of the comments of the trailer on YouTube that states you stream the movie from http://fb.me/7SxplnLq7."
+    "That could work too."
+
+    menu:
+        "What would you like to do?"
+
+        "Drive to the store all willy-nilly":
+            $ addonTime = 60
+            $ minutes += addonTime
+            $ update_clock_function()
+            $ display_adding_time_function()
+            "Driving to the store to pick it up doesn’t sound like a bad idea."
+            "A long one, but maybe not so bad after you sit there and think about it for a bit."
+            "You head to the store without a hitch and pick it up."
+            "This pretty much makes you become, quite literally, the hero of your friend group (and not to mention the most responsible one. Way to!)"
+
+        "Stream it from http://fb.me/7SxplnLq7":
+            $ addonTime = 5
+            $ minutes += addonTime
+            $ update_clock_function()
+            $ display_adding_time_function()
+            "Eh. "
+            extend "You decide that you can always buy the movie later and decide to just stream it from the website you found."
+            "Within seconds, you and your friend’s eyes are dripping from the feels that are oozing out of the theater system."
+            "Oh gross."
+            "Come on, guys, hold yourself together!"
+
+    $ addonTime = 135
+    $ minutes += addonTime
+    $ update_clock_function()
+    $ display_adding_time_function()
+
+    "You go through 7 tissue boxes. SEVEN."
+    "That was some wild ride."
+
+    "You and your friends spend a few minutes thinking about life, love, and love lost."
+    "You could spend all day there."
+
+    "HA! "
+    extend "Who am I kidding?"
+    "You guys are ready to go to the caves!!"
+    "What’s a little emotional trauma when it comes to having fun?"
+
+    "Get ready for a few hours of fun, adventure, darkness, and dankness."
+    "It’s every kid aged 12-17’s dream!"
+
+    "Everyone piles into your friend’s mom’s minivan."
+    "There are punch holes in the ceiling, writing on the chairs, and an unidentifiable sticky substance underneath the cushions."
+    "The word I would use to describe it is… "
+    extend "quaint."
+
+    scene cave with dissolve
+    $ create_menu_function(checkListDist)
+
+    $ addonTime = 25
+    $ minutes += addonTime
+    $ update_clock_function()
+    $ display_adding_time_function()
+
+    "Luckily, the drive isn’t long, so you make it there in relatively good time."
+    "You look upon the entrance to the cave from the window seat of the car."
+    "You can immediately tell why the tickets were only $3.75 per head."
+    "That entrance is tiiinnny."
+    "Plus, the place looks madly abandoned."
+
+    "Oh well."
+    "Here we go!"
+
+    "You all pile out of the decrepit minivan and begin to gather your equipment for the adventure."
+    "Ropes, helmets with flashlights, and those little gummy fruit snacks shaped like a children’s show cartoon."
+    "Yup, you have everything you need for a successful trip into the caves right there."
+
+    "Now that you all are equipped for the adventure and the last tears have dried from the movie, you are all gung-ho to dive into the spelunking experience."
+    "Your friends all begin to file into the cave with you bringing up the rear."
+
+    $ addonTime = 20
+    $ minutes += addonTime
+    $ update_clock_function()
+    $ display_adding_time_function()
+
+    "As time passes, you get deeper and deeper into the earth."
+
+    "You all come to a large opening within the earth where you can see half a mile in each direction."
+    "Shall we say, it's a..."
+    extend "DEEP experience?"
+    "hahahahahahahahaha"
+    "We have good times together, don't we?"
+    "Anyways, one of your friends has the awesome idea for everyone to turn off their lights to see what pure pitch black is like."
+    "It's the smallest things that amuse that poor boy."
+
+    "So, in the same manner that all the lights came on, they slowly flicker off."
+    "You take your helmet off and set it on a nearby stalagmite that you saw before the lights went off."
+
+    "With all the lights off, your eyes start playing tricks on you and you start hallucinating all sorts of things: "
+    extend "Chewbacca riding a sea turtle, "
+    extend "a british bulldog with a top hat, "
+    extend "and even all the Beatles wearing mustaches."
+    "(Well, all except Ringo Starr -- you know why.)"
+    "You start giggling to yourself (weirdo) and clearly the rest of your friends are seeing things to judging by their slight reactions to the darkness."
+
+    "You take a step backwards and accidentally knock your helmet over."
+
+    "The clanging can be heard for what feels like an eternity."
+    "Your friends quickly grab their helmets and flick them on."
+    "No fireflies this time."
+
+    "You all look over the precipice that your helmet continues to fall into."
+
+    #Possibly add sound effect?
+    "CHBIKKG! "
+    extend "It hit the unseen cave floor miles below where you are."
+
+    "Well dang. "
+    extend "Not only do you not have head protection anymore, but you are also missing a light."
+
+    "You quickly pull out your phone, but realize that you deleted your flashlight app ages ago."
+    "But wait."
+    "What the heck?"
+    "Seriously, what?"
+
+    "For some bizarre reason you have data down here."
+    "You don't even have data at your parent's house in Florida; Why the heck do you have it down here??"
+
+    "Oh oh oh! I've got it!"
+    "It must be the liquid on the stalactites that are boosting the signal or something."
+    "Yeah. "
+    extend "Uh. "
+    extend "Let’s go with that."
+    "It sounds science-y enough to be true, right?"
+
+    "Either way, you have data and so you begin to download a new app miles below the earth."
+    "What a time to be alive!"
+
+    "However, the app asks for permission to use your microphone, camera, and your media and file storage."
+    "It’s not blatantly clear why it needs those permissions, but you need the app if you don’t want to slow down the rest of your friends in the cave."
+
+    menu:
+        "So, what do you do?"
+
+        "Go ahead and download the app":
+            $ addonTime = 2
+            $ minutes += addonTime
+            $ update_clock_function()
+            $ display_adding_time_function()
+            "Yeah, who cares about those permission needs anyways?"
+            "Certianly not you, that's who!"
+            "You’ll delete the app the second you get back up on solid ground, so what harm is there?"
+            $ addonTime = 120
+            $ minutes += addonTime
+            $ update_clock_function()
+            $ display_adding_time_function()
+            "You find yourself having a blast throughout the rest of the caving adventure and actually find that you are able to see more things that you ever where able to before because of the versatility of having a light on your phone instead of your head."
+
+        "Rely on your friends to get you through the rest of the trip":
+            $ addonTime = 145
+            $ minutes += addonTime
+            $ update_clock_function()
+            $ display_adding_time_function()
+            "It’s slow going, but decide to go ahead and trust your friends to guide you through the rest of the caves."
+            "It actually becomes pretty fun after a while having everyone cater to you and look out for your best interest."
+
+    "Before you know it, you find yourself climbing upwards instead of down."
+    "Eventually you see a faint trace of light in the distance."
+
+    "And just like that you all one by one squeeze out of a little crevice in the earth that leads back above ground."
+    "Not too shabby. \n"
+    extend "Not too shabby at all."
+
+
+    $ addonTime = 35
+    $ minutes += addonTime
+    $ update_clock_function()
+    $ display_adding_time_function()
+    "You head back to your house after that grand adventure."
+    "There was a little traffic this time, but it was no big deal."
+
+    "It was a grand time over all and you glad you set aside the time to do it, even with it being one of the more time-costly things on your list."
 
     $ friends = 0
     jump choices
@@ -620,6 +827,11 @@ label homework:
 
     scene room_day with fade
     $ create_menu_function(checkListDist)
+
+    $ addonTime = 2
+    $ minutes += addonTime
+    $ update_clock_function()
+    $ display_adding_time_function()
 
     "You head back to your room where you remember from this morning that you, oh so carefully, stored your books there on the floor."
     "As you walk around the room and pick up the scattered textbooks and papers all around, you begin to develop a sinking feeling in the pit of your stomach."
@@ -926,7 +1138,9 @@ label shopping:
 
     "Wait!"
     "Before you quit and all hope is lost, you notice that the store has a free unprotected WiFi hotspot!"
-    "You could easily connect to it to make the transfer and be on your way."
+    "However, there is a slight snag."
+    "When you navigate to your bank's webpage, out of the corner of your eye you notice a lack of a green padlock in the corner of the url."
+    "You could still easily connect to it to make the transfer and be on your way."
 
     menu:
         "What would you like to do?"
@@ -937,6 +1151,7 @@ label shopping:
             $ update_clock_function()
             $ display_adding_time_function()
             "Definitely the quickest and most efficient option."
+            "Who even knows what that little green thing in the url means anyways?"
             "You use your formidable intellect to determine that you would like to save time, money, and gas by just moving money over into your bank account."
             "Nice one!"
             "You continue to cruise through the checkout counter without skipping a beat and are soon out of the store before you know it with all the goat cheese your arms could carry."
@@ -1058,8 +1273,6 @@ label ending:
 # The splashscreen is called, if it exists, before the main menu is
 # shown the first time. It is not called if the game has restarted.
 
-# We'll comment it out for now.
-#
 # label splashscreen:
 #     scene black
 #     show text "Taylor University's Computer Science Department Presents..." with dissolve
