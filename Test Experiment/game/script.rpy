@@ -1,5 +1,4 @@
 init:
-
     #screen size setup
     $ config.screen_width = 800
     $ config.screen_height = 600
@@ -973,7 +972,6 @@ label ending:
 #     hide text with dissolve
 #
 #     return
-
 
     return
 
