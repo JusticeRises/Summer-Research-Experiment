@@ -434,7 +434,6 @@ label choices:
             call taxes from _call_taxes_1
             jump choices
         "Hang out with Friends" if friends:
-            "Have fun with yo friends dawg!"
             $ friends = 3
             $ create_menu_function(checkListDist)
             call friends from _call_friends_1
@@ -445,7 +444,6 @@ label choices:
             call homework from _call_homework_1
             jump choices
         "Go Shopping" if shopping:
-            "What? You think you are some form of responsible adult now? Fine. Go shopping."
             $ shopping = 3
             $ create_menu_function(checkListDist)
             call shopping from _call_shopping_1
@@ -604,7 +602,11 @@ label taxes:
     jump choices
 
 label friends:
-    "Friends"
+    "YES!"
+    extend "The most socially invigorating thing on your todo list and you are about to embark on it."
+
+    "Your friends have been planning this for ages."
+    "First step on the agenda is to watch the latest and greatest movie in your friend groups absolute favorite movie series: {i}Love Comes Softly{/i}."
 
     $ friends = 0
     jump choices
@@ -950,6 +952,99 @@ label shopping:
             "You are able to check out this time without too much trouble, but man, did you wish you hadn’t forgotten about your empty checking account earlier!"
 
     "You feel a little drained after that whole ordeal and actually feel a little exhausted."
+
+    menu:
+        "Would you like to head to the local coffee shop and snag some caffeine and crumpets?"
+
+        "Heck yes! Pure caffeine is the foundation of America!":
+            $ addonTime = 45
+            $ minutes += addonTime
+            $ update_clock_function()
+            $ display_adding_time_function()
+            "Coffee it is!"
+            "You spend a little time heading over to your favorite StarDollars (hey, copyright infringement fees are expensive) and fill up on all sorts of caffeinated delights."
+            "This will keep you going for the rest of the day for sure!"
+            "You find yourself chanting \“Power to the People\” over and over again while you fist pump the air as you walk out of the coffee shop ready to finish your day."
+
+        "I’m not really much of a coffee person. I’d rather not.":
+
+            menu:
+                "But, but, but, are you sure??"
+
+                "YES! Stop trying to force this on me!":
+                    "Okay. :("
+                    "Woah. \n"
+                    extend "Is this our first fight?"
+                    "We need to recover from this right away."
+                    "You know, I know a great psychiatrist that can help us push through this."
+                    extend "TOGETHER!"
+
+                    "Our relationship was formed on rock and roll and he can help us get back to those roots."
+                    "I'm certain of it."
+
+                    menu:
+                        "Now just let me sign us up really quick..."
+
+                        "NO!":
+                            "Whaat?? Are you sure? I think we need this."
+                            "The fact that you are rejecting this makes me believe we need it all the more."
+                            "That's it. I'm calling Dr. Langeskov."
+                            "He'll know what to do."
+                            "...."
+                            "uhhuh."
+                            "hmm"
+                            "yes?"
+                            "okay."
+                            "..."
+                            "will do."
+                            "thanks, Doc"
+                            "You always know how to cheer me up."
+                            "hahahaha no you hang up!"
+                            "HANG UP GOSH DARN IT!"
+                            "haha okay, bye!"
+                            "*click*"
+                            "Yup, that was the Doc alright."
+                            "He wants us to tell a story together for some reason."
+                            "Thank goodness that I have this script right here with every move you are going to make during the course of the rest of the day."
+                            "We can totally live through it together!"
+                            "I'll dictate and you listen/ help when needed while our love grows fonder."
+                            "This is all for you now. \n"
+                            extend "No one else."
+                            "Let's get back into it, shall we?"
+
+                        "You, my good sir, are a relationship wizard.":
+                            "Wait. \n"
+                            extend "You really think so?"
+                            "Honest to goodness?"
+                            "I think I'm going to cry."
+                            "Yup. \n"
+                            extend "Here it comes"
+                            ":''''''''''''')"
+                            "Those are tears of joy right there."
+                            "I'm going to build you the best story ever from now on!"
+                            "And you have my word on that (as well as my prewritten script!"
+                            "*sniff* Just know I'm always here for you if you ever need me."
+
+                    "So, I guess you decide caffeine really isn’t needed."
+                    "You have so much moxxy that you are certain that you can get the rest of your list done on your current energy reserves."
+                    "You feel proud that you know yourself and your limits so well. \n"
+                    extend "(Wow, I think that was the most serious line in this whole game.)"
+
+                "You're right! Coffee is now my favorite thing. Let's go!":
+                    $ addonTime = 45
+                    $ minutes += addonTime
+                    $ update_clock_function()
+                    $ display_adding_time_function()
+                    "Coffee it is!"
+                    "You spend a little time heading over to your favorite StarDollars (hey, copyright infringement fees are expensive) and fill up on all sorts of caffeinated delights."
+                    "This will keep you going for the rest of the day for sure!"
+                    "You find yourself chanting \“Power to the People\” over and over again while you fist pump the air as you walk out of the coffee shop ready to finish your day."
+
+
+    "Mhmmmmm congrat on getting all that shopping done."
+    "Now to make that totes delish, mhhhmmm, lobster soufflé of the strawberry variety (If you know what I mean.;) )"
+    "But first you have to finish the rest of your chores, yo!"
+    "No slackin' off just yet."
 
     $ shopping = 0
     jump choices
