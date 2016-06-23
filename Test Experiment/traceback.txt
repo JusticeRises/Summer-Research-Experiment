@@ -1,38 +1,28 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-After initialization, but before game start.
-  File "game/script.rpy", line 113, in prepare_screen
-    screen addonTime_overlay:
-  File "game/script.rpy", line 113, in prepare
-    screen addonTime_overlay:
-  File "game/script.rpy", line 114, in prepare
-    frame at alpha_dissolve:
-SyntaxError: invalid syntax (script.rpy, line 114)
+While running game code:
+  File "game/script.rpy", line 440, in script
+    "Nothing really looks different."
+  File "game/script.rpy", line 440, in <module>
+    "Nothing really looks different."
+  File "game/script.rpy", line 235, in increment_show_security
+    show_security_level_function(securityLevel)
+NameError: global name 'self' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/bootstrap.py", line 277, in bootstrap
-    renpy.main.main()
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/main.py", line 472, in main
-    run(restart)
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/main.py", line 85, in run
-    renpy.display.screen.prepare_screens()
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/screen.py", line 827, in prepare_screens
-    s.ast.prepare_screen()
-  File "game/script.rpy", line 113, in prepare_screen
-    screen addonTime_overlay:
-  File "game/script.rpy", line 113, in prepare
-    screen addonTime_overlay:
-  File "game/script.rpy", line 114, in prepare
-    frame at alpha_dissolve:
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/pyanalysis.py", line 686, in ast_eval
-    return self.ast_eval_literal(expr)[0]
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/pyanalysis.py", line 670, in ast_eval_literal
-    expr = py_compile(expr, 'eval', ast_node=True)
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/python.py", line 512, in py_compile
-    raise e
-SyntaxError: invalid syntax (script.rpy, line 114)
+  File "game/script.rpy", line 440, in script
+    "Nothing really looks different."
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/ast.py", line 806, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/python.py", line 1577, in py_exec_bytecode
+    exec bytecode in globals, locals
+  File "game/script.rpy", line 440, in <module>
+    "Nothing really looks different."
+  File "game/script.rpy", line 235, in increment_show_security
+    show_security_level_function(securityLevel)
+NameError: global name 'self' is not defined
 
 Darwin-15.5.0-x86_64-i386-64bit
 Ren'Py 6.99.10.1227

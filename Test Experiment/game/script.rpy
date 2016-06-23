@@ -9,9 +9,10 @@ init:
     #Variables
     $ minutes = 540
     $ bedtime = 1320
-    $ checkListDist = 0.01
+    $ checkListDist = 0.03
     $ isNeat = False
     $ addonTime = 0
+    $ securityLevel = 3
 
     image popup = im.FactorScale("popup.jpg", .75)
 
@@ -53,6 +54,15 @@ init:
     image store = "store.png"
     image friends_house = "friends_house.png"
 
+    #Security Health Images
+    image level_1 = im.FactorScale("level-1.png", .6)
+    image level_2 = im.FactorScale("level-2.png", .6)
+    image level_3 = im.FactorScale("level-3.png", .6)
+    image level_4 = im.FactorScale("level-4.png", .6)
+    image level_5 = im.FactorScale("level-5.png", .6)
+    image level_6 = im.FactorScale("level-6.png", .6)
+    image level_7 = im.FactorScale("level-7.png", .6)
+
     # Clock Manipulations
     transform rotateshort:
         xanchor 0.5
@@ -80,6 +90,13 @@ init:
         yanchor 0.5
         xalign 0.01
         yalign yValue
+
+    # Security Health Manipulations
+    transform levelPlace():
+        xanchor 0.5
+        yanchor 0.5
+        xalign 0.55
+        yalign 0.05
 
     screen clock:
         frame:
@@ -113,7 +130,7 @@ init:
         text ("%d:%02d" % (analog_hours, analog_minutes)) pos (675, 110)
 
     screen addonTime_overlay:
-        text ("%s %d" % ("+", addonTime)) size 90 pos (250, 225) color "#b20000" at alpha_dissolve
+        text ("%s %d" % ("+", addonTime)) size 90 pos (250, 225) color "#e4787c" at alpha_dissolve
 
     #Declare todo list tasks
     init python:
@@ -202,6 +219,28 @@ init:
             renpy.pause(1.0)
             addonTime_fadeout_function()
 
+        def hide_security_level_function(securityValue):
+            security_image = "level_%(securityLevel)d" % globals()
+            renpy.hide(security_image)
+            renpy.with_statement(dissolve, always=True)
+
+        def show_security_level_function(securityValue):
+            security_image = "level_%(securityLevel)d" % globals()
+            renpy.show(security_image, at_list=[levelPlace])
+            renpy.with_statement(dissolve, always=True)
+
+        def increment_show_security(securityValue):
+            if securityValue != 7:
+                hide_security_level_function(securityValue)
+                globals()['securityLevel'] += 1
+                show_security_level_function(securityValue)
+
+        def decrement_show_security(securityValue):
+            if securityValue != 1:
+                hide_security_level_function(securityValue)
+                globals()['securityLevel'] -= 1
+                show_security_level_function(securityValue)
+
 
 # The game starts here.
 label start:
@@ -230,6 +269,7 @@ label start:
 
     show screen clockDissolve
     show screen time_overlay
+    $ show_security_level_function(securityLevel)
 
     "9:00am on a Sunday."
 
@@ -324,7 +364,7 @@ label start:
     "And go shopping for some groceries before tomorrow"
 
     #reset checkListDist for next time the menu is spawned
-    $ checkListDist = .01
+    $ checkListDist = .03
 
     ###################################
     #End Menu Slide In
@@ -388,6 +428,10 @@ label start:
 
     "It doesn’t seem to be a major update and your phone is working fine the way it is currently."
 
+
+    ###
+    # SECURITY QUESTION 1
+    ###
     menu:
         "Do you spend the extra few minutes updating your phone or do you want to hurry up and get to your list?"
 
@@ -396,6 +440,7 @@ label start:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "All about them updates, huh?"
             "You sit there twiddling your thumbs for an extra 15 minutes as you wait for your robotFruit 8.2 SE to restart, download, and restart again."
             "Nothing really looks different."
@@ -407,6 +452,7 @@ label start:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "You chose not to waste your time on an update today."
             "I mean, you’re a busy person and it’s not like there’s anything important in there since your phone is already working fine, right?"
             "NBD. You just get on with your work. Time to make some decisions."
@@ -463,6 +509,7 @@ label taxes:
 
     scene living_room with dissolve
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
 
     "You move over to your living room and sit down at your desk."
     "Blegh. \n"
@@ -505,8 +552,13 @@ label taxes:
     scene blackBKG with fade
     "Everything begins to go black as you are consumed by the tax-life."
 
+    ###
+    # SECURITY QUESTION 2
+    ###
+
     scene living_room with fade
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
     "Suddenly a ding noise coming from your desktop breaks you from your dedicated trance that would have made your uncle, who is a monk, incredibly jealous."
 
     "You welcome the distraction and glance at the intrusion on your screen."
@@ -529,6 +581,7 @@ label taxes:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "Whew. \n"
             extend "Crisis averted."
             "You followed the prompts and clicked \“next\” when prompted and now it’s back to work!"
@@ -539,6 +592,7 @@ label taxes:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "You feel a little wary about following a prompt for something you do not recognize."
             "It didn’t look like your antivirus software, so you “cancelled” out of it, received five more popups, and then ran your antimalware software to clean it up. It found something called \“Edgar’s Love Trojan.\”"
             "You felt thoroughly creeped out and violated that that was on your computer."
@@ -554,6 +608,10 @@ label taxes:
     extend "2. Set up and send through PGP encrypted email \n"
     extend "3. Hand-deliver the sucker (half hour drive there and back)"
 
+    ###
+    # SECURITY QUESTION 3
+    ###
+
     menu:
         "How would you like to give da goods to your accountant?"
 
@@ -562,14 +620,16 @@ label taxes:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "You chose the fastest approach you could think of."
             "You took all the files, dropped them into an email, signed it with a few XOXO’s and then sent it off."
             "Done and done."
         "Encrypted Email":
-            $ addonTime = 60
+            $ addonTime = 65
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "\"These are super sensitive documents, right?\" You thought to yourself."
             "I mean, your social security number is littered all over them."
             "So, of course they are sensitive!"
@@ -580,10 +640,11 @@ label taxes:
             "I have absolutely no clue. You are the one who wrote it."
             "Done and done."
         "Hand-Delivered":
-            $ addonTime = 105
+            $ addonTime = 135
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "Meh. \n"
             extend "I can tell you don't really care for that technogarbage trash."
             "However, you still want to get the documents to your account safe and sound without any danger of it falling into the wrong hands."
@@ -626,6 +687,7 @@ label friends:
 
     scene friends_house with dissolve
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
 
     "But when you get there, dreams are crushed and hopes are dashed against the harsh harsh rocks of cheapened reality."
     "Your friends never bought the movie! (Thanks, Obama!)"
@@ -640,6 +702,11 @@ label friends:
     "You saw a great site in one of the comments of the trailer on YouTube that states you stream the movie from http://fb.me/7SxplnLq7."
     "That could work too."
 
+
+    ###
+    # SECURITY QUESTION 4
+    ###
+
     menu:
         "What would you like to do?"
 
@@ -648,6 +715,7 @@ label friends:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "Driving to the store to pick it up doesn’t sound like a bad idea."
             "A long one, but maybe not so bad after you sit there and think about it for a bit."
             "You head to the store without a hitch and pick it up."
@@ -658,6 +726,7 @@ label friends:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "Eh. "
             extend "You decide that you can always buy the movie later and decide to just stream it from the website you found."
             "Within seconds, you and your friend’s eyes are dripping from the feels that are oozing out of the theater system."
@@ -690,6 +759,7 @@ label friends:
 
     scene cave with dissolve
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
 
     $ addonTime = 25
     $ minutes += addonTime
@@ -773,6 +843,10 @@ label friends:
     "However, the app asks for permission to use your microphone, camera, and your media and file storage."
     "It’s not blatantly clear why it needs those permissions, but you need the app if you don’t want to slow down the rest of your friends in the cave."
 
+    ###
+    # SECURITY QUESTION 5
+    ###
+
     menu:
         "So, what do you do?"
 
@@ -781,6 +855,7 @@ label friends:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "Yeah, who cares about those permission needs anyways?"
             "Certianly not you, that's who!"
             "You’ll delete the app the second you get back up on solid ground, so what harm is there?"
@@ -795,6 +870,7 @@ label friends:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "It’s slow going, but decide to go ahead and trust your friends to guide you through the rest of the caves."
             "It actually becomes pretty fun after a while having everyone cater to you and look out for your best interest."
 
@@ -827,6 +903,7 @@ label homework:
 
     scene room_day with fade
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
 
     $ addonTime = 2
     $ minutes += addonTime
@@ -852,6 +929,10 @@ label homework:
     extend "2. Skip the homework and get a poor grade (2 min) \n"
     extend "3. Keep searching (1 hr 30 min)"
 
+    ###
+    # SECURITY QUESTION 6
+    ###
+
     menu:
         "What would you like to do?"
 
@@ -860,6 +941,7 @@ label homework:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "Ah sailing the high seas, are we?"
             "Well it looks like it worked out for you."
             "You found a site called freeepubsformoms.com and were able to get the textbook you needed."
@@ -912,6 +994,7 @@ label homework:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "You chose the hard and laborious path of continuing the search."
             "Throughout it, you find things you never even knew you owned!"
 
@@ -966,6 +1049,10 @@ label homework:
             "Long story short, he found out the latest season of {i}Gilmore Girls{/i} is on Netflix and would really like to borrow your account so he can watch it this weekend."
             "You’re fine with letting him use your account, there’s just the problem with getting him your credentials so that he can log in."
 
+            ###
+            # SECURITY QUESTION 7
+            ###
+
             menu:
                 "How do you want to send him your username and password?"
 
@@ -974,6 +1061,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ decrement_show_security(securityLevel)
                     "You send him a hurried text."
                     "Quickly, you type out your username and password and click send."
                     "You don’t want to get distracted any more than you have to since you are kinda in the flow at the moment."
@@ -983,6 +1071,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ decrement_show_security(securityLevel)
                     "Since it’s your brother, you decide you should at least give him the curtesy of sending him an email back with the info he needs."
                     "Plus, this way you won't get sucked into a conversation with him when you really just need to get back to work."
                     "You write the email as fast as you can, giving him your credentials, and then press send."
@@ -993,6 +1082,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ increment_show_security(securityLevel)
                     "You decide and encrypted email is the way to go."
                     "Your information is important and you don’t want the Chinese to somehow get access to your precious Netflix account."
                     "They'd probably wreck all of the hours you’ve spent rating movies for better recommendations!"
@@ -1005,6 +1095,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ decrement_show_security(securityLevel)
                     "You decide just to call him up and give him the information over the phone."
                     "Hey, it’s your brother and you haven’t talked in a while so it only makes sense to do it this way."
                     "It really was a nice break from all of your hard work."
@@ -1016,6 +1107,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ increment_show_security(securityLevel)
                     "You decide not to compromise sociability or security and decide to download an app that encrypts your phone calls over wifi."
                     "You have to wait a little for your brother to download the app and to get into a wifi zone, but it works."
                     "Sure, you may have used a little more time this way to set it all up securely and to talk with your brother, but you got to catch up with him and hear all about his recent crush on Rory Gilmore."
@@ -1051,6 +1143,10 @@ label homework:
             "Long story short, he found out the latest season of {i}Gilmore Girls{/i} is on Netflix and would really like to borrow your account so he can watch it this weekend."
             "You’re fine with letting him use your account, there’s just the problem with getting him your credentials so that he can log in."
 
+            ###
+            # SECURITY QUESTION 7
+            ###
+
             menu:
                 "How do you want to send him your username and password?"
 
@@ -1059,6 +1155,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ decrement_show_security(securityLevel)
                     "You send him a hurried text."
                     "Quickly, you type out your username and password and click send."
                     "You don’t want to get distracted any more than you have to since you are kinda in the flow at the moment."
@@ -1068,6 +1165,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ decrement_show_security(securityLevel)
                     "Since it’s your brother, you decide you should at least give him the curtesy of sending him an email back with the info he needs."
                     "Plus, this way you won't get sucked into a conversation with him when you really just need to get back to work."
                     "You write the email as fast as you can, giving him your credentials, and then press send."
@@ -1078,6 +1176,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ increment_show_security(securityLevel)
                     "You decide and encrypted email is the way to go."
                     "Your information is important and you don’t want the Chinese to somehow get access to your precious Netflix account."
                     "They'd probably wreck all of the hours you’ve spent rating movies for better recommendations!"
@@ -1090,6 +1189,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ decrement_show_security(securityLevel)
                     "You decide just to call him up and give him the information over the phone."
                     "Hey, it’s your brother and you haven’t talked in a while so it only makes sense to do it this way."
                     "It really was a nice break from all of your hard work."
@@ -1101,6 +1201,7 @@ label homework:
                     $ minutes += addonTime
                     $ update_clock_function()
                     $ display_adding_time_function()
+                    $ increment_show_security(securityLevel)
                     "You decide not to compromise sociability or security and decide to download an app that encrypts your phone calls over wifi."
                     "You have to wait a little for your brother to download the app and to get into a wifi zone, but it works."
                     "Sure, you may have used a little more time this way to set it all up securely and to talk with your brother, but you got to catch up with him and hear all about his recent crush on Rory Gilmore."
@@ -1126,6 +1227,7 @@ label shopping:
 
     scene store with dissolve
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
 
     "When you get there, you dutifully peruse the pastries and exotic cheeses, gather the necessary ingredients for the strawberry lobster soufflé you’ve been dying to try, and moved towards the checkout counter."
     "You inch closer and closer in your line, until… "
@@ -1142,6 +1244,10 @@ label shopping:
     "When you navigate to your bank's webpage, out of the corner of your eye you notice a lack of a green padlock in the corner of the url."
     "You could still easily connect to it to make the transfer and be on your way."
 
+    ###
+    # SECURITY QUESTION 8
+    ###
+
     menu:
         "What would you like to do?"
 
@@ -1150,6 +1256,7 @@ label shopping:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ decrement_show_security(securityLevel)
             "Definitely the quickest and most efficient option."
             "Who even knows what that little green thing in the url means anyways?"
             "You use your formidable intellect to determine that you would like to save time, money, and gas by just moving money over into your bank account."
@@ -1161,6 +1268,7 @@ label shopping:
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
+            $ increment_show_security(securityLevel)
             "You berate yourself as you carefully put all the cartful of goat cheese all back in its respective aisle in the store and climb back into your car to head home."
             "Sometimes you wonder why you go through so much trouble in order to be secure even when it would have just been a short transaction."
             "After the long drive back home, you grab the extra cash you store in the cookie jar in your kitchen, make a mental note to get cookies while at the store, and then head back out."
@@ -1267,21 +1375,22 @@ label shopping:
 label ending:
     scene room_night with dissolve
     $ create_menu_function(checkListDist)
+    $ show_security_level_function(securityLevel)
 
     "ending"
 
+return
+
 # The splashscreen is called, if it exists, before the main menu is
 # shown the first time. It is not called if the game has restarted.
-
-# label splashscreen:
+#
+#label splashscreen:
 #     scene black
 #     show text "Taylor University's Computer Science Department Presents..." with dissolve
-#     $ renpy.pause(1.0)
+#     $ renpy.pause(2.0)
 #     hide text with dissolve
 #
 #     return
-
-    return
 
 init python:
     style.text.color = "#e08a2c"
