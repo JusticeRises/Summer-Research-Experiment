@@ -1,39 +1,77 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
-After initialization, but before game start.
-  File "game/script.rpy", line 113, in prepare_screen
-    screen addonTime_overlay:
-  File "game/script.rpy", line 113, in prepare
-    screen addonTime_overlay:
-  File "game/script.rpy", line 114, in prepare
-    frame at alpha_dissolve:
-SyntaxError: invalid syntax (script.rpy, line 114)
+While loading <'Image' 'intro_bkg.png'>:
+  File "game/script.rpy", line 335, in script
+    scene intro_bkg with dissolve
+IOError: Couldn't find file 'intro_bkg.png'.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/bootstrap.py", line 277, in bootstrap
-    renpy.main.main()
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/main.py", line 472, in main
-    run(restart)
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/main.py", line 85, in run
-    renpy.display.screen.prepare_screens()
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/screen.py", line 827, in prepare_screens
-    s.ast.prepare_screen()
-  File "game/script.rpy", line 113, in prepare_screen
-    screen addonTime_overlay:
-  File "game/script.rpy", line 113, in prepare
-    screen addonTime_overlay:
-  File "game/script.rpy", line 114, in prepare
-    frame at alpha_dissolve:
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/pyanalysis.py", line 686, in ast_eval
-    return self.ast_eval_literal(expr)[0]
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/pyanalysis.py", line 670, in ast_eval_literal
-    expr = py_compile(expr, 'eval', ast_node=True)
-  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/python.py", line 512, in py_compile
-    raise e
-SyntaxError: invalid syntax (script.rpy, line 114)
+  File "game/script.rpy", line 335, in script
+    scene intro_bkg with dissolve
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/ast.py", line 1266, in execute
+    renpy.exports.with_statement(trans, paired)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/exports.py", line 1357, in with_statement
+    return renpy.game.interface.do_with(trans, paired, clear=clear)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/core.py", line 1987, in do_with
+    clear=clear)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/core.py", line 2425, in interact
+    repeat, rv = self.interact_core(preloads=preloads, **kwargs)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/core.py", line 2779, in interact_core
+    self.draw_screen(root_widget, fullscreen_video, (not fullscreen_video) or video_frame_drawn)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/core.py", line 1848, in draw_screen
+    renpy.config.screen_height,
+  File "renpy/display/render.pyx", line 416, in renpy.display.render.render_screen (gen/renpy.display.render.c:6685)
+    rv = render(root, width, height, 0, 0)
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/layout.py", line 649, in render
+    surf = render(child, width, height, cst, cat)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen/renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/transition.py", line 363, in render
+    top = render(self.new_widget, width, height, st, at)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen/renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/layout.py", line 649, in render
+    surf = render(child, width, height, cst, cat)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen/renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/layout.py", line 649, in render
+    surf = render(child, width, height, cst, cat)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen/renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "renpy/display/accelerator.pyx", line 104, in renpy.display.accelerator.transform_render (gen/renpy.display.accelerator.c:1965)
+    cr = render(child, widtho, heighto, st - self.child_st_base, at)
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/image.py", line 261, in render
+    return wrap_render(self.target, width, height, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/image.py", line 124, in wrap_render
+    rend = render(child, w, h, st, at)
+  File "renpy/display/render.pyx", line 103, in renpy.display.render.render (gen/renpy.display.render.c:3319)
+    cpdef render(d, object widtho, object heighto, double st, double at):
+  File "renpy/display/render.pyx", line 185, in renpy.display.render.render (gen/renpy.display.render.c:2857)
+    rv = d.render(widtho, heighto, st, at)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/im.py", line 478, in render
+    im = cache.get(self)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/im.py", line 200, in get
+    surf = image.load()
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/display/im.py", line 529, in load
+    surf = renpy.display.pgrender.load_image(renpy.loader.load(self.filename), self.filename)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/loader.py", line 533, in load
+    raise IOError("Couldn't find file '%s'." % name)
+IOError: Couldn't find file 'intro_bkg.png'.
 
 Darwin-15.5.0-x86_64-i386-64bit
 Ren'Py 6.99.10.1227
-Test Experiment 0.0
+ 
