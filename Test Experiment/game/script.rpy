@@ -1,10 +1,12 @@
 init:
+    $ config.developer = False
+
     #screen size setup
     $ config.screen_width = 800
     $ config.screen_height = 600
 
     #screen title setup
-    $ config.window_title = "Test Experiment"
+    $ config.window_title = "Time TODO!"
 
     #Variables
     $ minutes = 540
@@ -14,7 +16,47 @@ init:
     $ addonTime = 0
     $ securityLevel = 3
 
+    $ yIncrement = .5
+    $ xMain = .1
+    $ xTime = .9
+
+    #Decision Variables
+    $ first_sleep_in = False
+    $ second_sleep_in = False
+    $ pet_type = False
+    $ pet_name = False
+    $ watch_tv = False
+    $ update_phone = False
+
+    $ organize_desk = False
+    $ click_popup = False
+    $ tax_delivery = False
+
+    $ pirate_movie = False
+    $ download_app = False
+
+    $ homework_decision = False
+    $ study = False
+    $ netflix_password = False
+
+    $ wifi_transfer = False
+    $ coffee_break = False
+    $ arguing = False
+
+    define introDissolve_1 = Dissolve(2.0)
+    define introDissolve_2 = Dissolve(1.0)
+
+    image movie = Movie(size=(1280, 720), xpos=0, ypos=0, xanchor=0, yanchor=0)
+
     image popup = im.FactorScale("popup.jpg", .75)
+    image pet_dog = "pet_dog.png"
+    image losing_face = "losing_face.png"
+
+    #Intro Images
+    image justice = "swaggin_justice.png"
+    image cute_picture = "cute_picture.jpg"
+    image intro_image = "introImage.png"
+    image intro_bkg = "intro_bkg.png"
 
     #Clock Images
     image clock = im.FactorScale("clock.png", .5) # Short Clockhand
@@ -98,6 +140,13 @@ init:
         xalign 0.55
         yalign 0.05
 
+    # End Results Manipulations
+    transform resultsPlace(xValue, yValue):
+        xanchor 0.5
+        yanchor 0.5
+        xalign (xValue)
+        yalign (yValue)
+
     screen clock:
         frame:
             xmaximum 150 # X size of clock graphic
@@ -127,7 +176,23 @@ init:
     screen time_overlay:
         $ analog_minutes = minutes % 60
         $ analog_hours = (minutes / 60) % 24
-        text ("%d:%02d" % (analog_hours, analog_minutes)) pos (675, 110)
+
+        $ minutes_left = 60 - analog_minutes
+        $ hours_left = 16 - analog_hours
+
+        if minutes_left == 60:
+            $ minutes_left = 0
+            $ hours_left += 1
+
+        if minutes <= 1019 and minutes <= 599:
+            text ("%d:%02d" % (analog_hours, analog_minutes)) pos (680, 110) color "#e08a2c" size 30 bold True
+            text ("%s%d:%02d" % ("Time left: ",hours_left, minutes_left)) pos (665, 140) color "#b76f27" size 12 bold True
+        if minutes <= 1019 and minutes >= 600:
+            text ("%d:%02d" % (analog_hours, analog_minutes)) pos (675, 110) color "#e08a2c" size 27 bold True
+            text ("%s%d:%02d" % ("Time left: ",hours_left, minutes_left)) pos (665, 140) color "#b76f27" size 12 bold True
+        if minutes >= 1110:
+            text ("%d:%02d" % (analog_hours, analog_minutes)) pos (675, 110) color "#B33A3A" size 27 bold True
+            text ("%s%d:%02d" % ("Late: ",hours_left, minutes_left)) pos (680, 140) color "#8C2F2F" size 12 bold True
 
     screen addonTime_overlay:
         text ("%s %d" % ("+", addonTime)) size 90 pos (250, 225) color "#e4787c" at alpha_dissolve
@@ -151,7 +216,7 @@ init:
             renpy.hide("img_title")
             renpy.hide("img_fileTaxes")
             renpy.hide("img_homework")
-            renpy.hide("img_shopping")
+            renpy.hide("img_friends")
             renpy.hide("img_shopping")
             renpy.hide("img_hadLunch")
             renpy.hide("img_hadDinner")
@@ -231,19 +296,281 @@ init:
 
         def increment_show_security(securityValue):
             if securityValue != 7:
-                hide_security_level_function(securityValue)
+                if second_group:
+                    hide_security_level_function(securityValue)
                 globals()['securityLevel'] += 1
-                show_security_level_function(securityValue)
+                if second_group:
+                    show_security_level_function(securityValue)
 
         def decrement_show_security(securityValue):
             if securityValue != 1:
-                hide_security_level_function(securityValue)
+                if second_group:
+                    hide_security_level_function(securityValue)
                 globals()['securityLevel'] -= 1
-                show_security_level_function(securityValue)
+                if second_group:
+                    show_security_level_function(securityValue)
 
 
 # The game starts here.
 label start:
+
+    scene black
+    with Pause(1)
+
+    "Hey, uh, quick question:"
+
+    menu:
+        "Are you in the first or second experimental group for this game?"
+
+        "First":
+            $ second_group = False
+
+        "Second":
+            $ second_group = True
+
+    "Appreciate it."
+    $ player_major = renpy.input("Secondly, what's your major/background?")
+    "Nice!"
+    "%(player_major)s? Pretty rad."
+    "I just had to do some quick housekeeping really quick is all to set up for all the fun you are about to have."
+
+    scene intro_bkg with dissolve
+
+    play movie "street_day_animated.ogv"
+    show movie with dissolve
+
+    "AH welcome."
+
+    "You are probably wondering what the heck you got yourself into by signing away your first born on that form that "
+    show justice
+    extend "this handsome devil gave you a few minutes ago."
+
+    hide justice
+
+    "Well tsk tsk."
+    "Someone is a jolly big eager beaver over here."
+
+    "But I like your gumption."
+
+    "That means you’ll be perfect for our little… "
+    extend "research experiment."
+
+    "No no! Don’t go away."
+
+    "It’s harmless. I promise. "
+    extend "(hope)"
+
+    "You see, you are one of the first people in line to try out this new area of research and so, honestly, we have no idea what could happen."
+
+    "I would personally say one of three things could happen:"
+
+    "1. You’ll help us prove our hypothesis (huzzah!)"
+    "2. You’ll help us disprove it (works too, I guess.)"
+    "3. Or you’ll turn into Tom Cruise."
+
+    "Really, all bets are up in the air at the moment as to what'll happen."
+    "So, uh, let’s keep our figures crossed for the third option for both our sakes, shall we?"
+
+    "What research are you helping in, you ask?"
+    "Meh. "
+    "It’s not important (especially now that you’ve signed our forms)."
+    "All will be revealed in due time."
+
+    "You are about to embark on a crazy adventure full on adventure, intrigue, and a little romantic subplot."
+
+    "Okay, actually, I’m lying."
+    "It’s actually an extremely bland story where you get to go through a day in the life of a college student on a Sunday afternoon trying to get his/her (who knows?) todo list done."
+
+    "GET PUMPED!"
+
+    "It’s a time management game, so use your time efficiently, effectively, and some other word that starts with an \“e\”."
+
+    #Begin instructions
+
+    "The whole purpose is to try and get your list of todo items done before 6:30pm, if possible."
+
+    "Don't worry, if you are super slow and miss the deadline, you will still get to finish the game."
+
+    "But if that happens, I will show you a super sad face at the end and no one wants to see that."
+
+    "However, if you win, you will be considered an super-neo-awesome time manager and I will love you forever."
+
+    "When playing through the game, time will be marked both analog and digitally (for the analog-impaired) in the top right hand corner of the screen like this."
+
+    show screen clockDissolve
+    show screen time_overlay
+
+    "As you make decisions, the clock will increase accordingly and one of these:"
+
+    $ addonTime = 30
+    $ minutes += addonTime
+    hide screen clockDissolve
+    show screen clockDissolve
+    $ renpy.hide_screen("time_overlay")
+    $ renpy.show_screen("time_overlay")
+    $ display_adding_time_function()
+
+    "will happen."
+
+    "It's super pretty isn't it?"
+
+    "(Say yes cause I spent probably too much time on that one feature.)"
+
+    "Heck, cause I’m feeling so generous (and for visual balance – hey artists are cool, okay?), I’ll even give you a handy dandy todo list in the top left side of the screen."
+
+    $ create_menu_function(checkListDist)
+
+    "You are, oh, so welcome."
+
+    $ hide_menu_function()
+    hide screen clockDissolve
+    $ renpy.hide_screen("time_overlay")
+    $ minutes -= 30
+
+    if second_group:
+        "Oh and one more thing."
+
+        $ show_security_level_function(securityLevel)
+
+        "As you make decisions, your security “health” will go up and down as reflected by that cute little flower over there."
+
+        $ increment_show_security(securityLevel)
+        $ renpy.pause(0.75)
+        $ decrement_show_security(securityLevel)
+
+        "Yup. And remember, this flower is only a rental, so don’t go killing it on me. I want to be able to return it by the end of this thing."
+
+    "So go! \n"
+    "Make wise or stupid decisions!"
+
+    "The only important thing is that you try and answer as wise or as stupid as you would if you were actually in these situations in a real life situation."
+
+    menu:
+        "Can you promise me you'll do that?"
+
+        "Yes":
+            "Swag. "
+            extend "You’re pretty cool."
+            "You know that?"
+            "Also did you watch {i}Downton Abbey{/i} last night??"
+            "haha oh boy was that a big mess!!"
+            "ahh ha ha this is like a conversation ha ha this is so personable"
+            "Oh man."
+            "This will be a fun go around."
+            "Let’s hurry up and get this party started!"
+
+        "No":
+            "Alr- wait. What? No??"
+            "You see? Now that was a test and you utterly failed it."
+            "I've never had anyone fail this early on before."
+            "Heck, I don't even know what to do now."
+            "The script doesn't cover this kind of thing."
+            "Well, I can’t let you proceed until you answer correctly while still being truthful."
+            "What are trying to do, anyways?"
+            "Wreck Justice’s end results?"
+            "Not cool."
+            "Justice will be hearing about this."
+            "I know. We'll just try again and pretend none of this ever happend."
+
+            menu:
+                "Can you promise me you'll follow the story truthfully?"
+
+                "Yes":
+                    "Swag. "
+                    extend "You’re pretty cool."
+                    "You know that?"
+                    "Also did you watch {i}Downton Abbey{/i} last night??"
+                    "haha oh boy was that a big mess!!"
+                    "ahh ha ha this is like a conversation ha ha this is so personable"
+                    "Oh man."
+                    "This will be a fun go around."
+                    "Let’s hurry up and get this party started!"
+
+                "No":
+                    "Oh come on!"
+                    "Why are you even taking this right now if you didn’t plan on answering truthfully?!"
+                    "Now quite playing games and answer correctly!"
+
+                    menu:
+                        "Yes":
+                            "Swag. "
+                            extend "You’re pretty cool."
+                            "You know that?"
+                            "Also did you watch {i}Downton Abbey{/i} last night??"
+                            "haha oh boy was that a big mess!!"
+                            "ahh ha ha this is like a conversation ha ha this is so personable"
+                            "Oh man."
+                            "This will be a fun go around."
+                            "Let’s hurry up and get this party started!"
+                        "No":
+                            "Stop it!"
+                            "Now answer correctly, gosh darn it!"
+
+                            menu:
+                                "Yes":
+                                    "Swag. "
+                                    extend "You’re pretty cool."
+                                    "You know that?"
+                                    "Also did you watch {i}Downton Abbey{/i} last night??"
+                                    "haha oh boy was that a big mess!!"
+                                    "ahh ha ha this is like a conversation ha ha this is so personable"
+                                    "Oh man."
+                                    "This will be a fun go around."
+                                    "Let’s hurry up and get this party started!"
+                                "No":
+                                    "Here."
+                                    "How about this."
+                                    "You do me a solid and then I give you one as well."
+                                    show cute_picture at truecenter
+                                    "Here is a super cute picture I found on the internet."
+                                    "May it appease your vehement spirit towards this experiment and cause you to finally get on board with what we are selling."
+
+                                    hide cute_picture
+
+                                    menu:
+                                        "So whaddya say?"
+
+                                        "Yes":
+                                            "HUZZAH!"
+                                            "UPWARDS AND ONWARDS WE GO!"
+                                            "But seriously, thanks for finally helping a brotha out."
+                                            "Oh man am I pumped to get this thing started."
+                                            "Shall we?"
+                                        "No":
+                                            "Fine."
+                                            "You know what?"
+                                            "I'm going to rig it."
+
+                                            menu:
+                                                "You will answer yes."
+
+                                                "Yes":
+                                                    "HUZZAH!"
+                                                    "UPWARDS AND ONWARDS WE GO!"
+                                                    "But seriously, thanks for finally helping a brotha out."
+                                                    "Oh man am I pumped to get this thing started."
+                                                    "Shall we?"
+                                                "Yes":
+                                                    "HUZZAH!"
+                                                    "UPWARDS AND ONWARDS WE GO!"
+                                                    "But seriously, thanks for finally helping a brotha out."
+                                                    "Oh man am I pumped to get this thing started."
+                                                    "Shall we?"
+
+    "Here we goooooooo!"
+    "Weird."
+    "That didn’t work."
+    "I hope it isn’t one of those delayed things."
+
+    "I’ll just do a forc-"
+
+    scene black with dissolve
+
+    show intro_image with introDissolve_1
+
+    hide intro_image with introDissolve_2
+
+label introduction:
 
     $ save_name = "Introduction"
     $ renpy.clear_game_runtime()
@@ -252,8 +579,6 @@ label start:
 
     scene blackBKG
 
-    centered "Welcome."
-
     "..."
     "...zzz..."
     "zzz... hmph."
@@ -261,7 +586,10 @@ label start:
     scene room_day with fade
 
     "You slowly begin to open your eyes and consciousness begins to ease its way back into your life."
-    "Everything comes flooding back."
+    if not(second_group):
+        "Everything comes flooding back."
+    if second_group:
+        "Everything comes flooding back (again)."
     "Your academic career."
     "Your friends."
     "Your slightly grungy apartment complex."
@@ -269,7 +597,8 @@ label start:
 
     show screen clockDissolve
     show screen time_overlay
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
     "9:00am on a Sunday."
 
@@ -280,21 +609,27 @@ label start:
         "Will you go back to bed for a few more minutes?"
 
         "Yes":
+            $ first_sleep_in = True
+
             $ addonTime = 30
             $ minutes += addonTime
             hide screen clockDissolve
             $ update_clock_function()
             $ display_adding_time_function()
+
             "I don’t even blame you. "
             "Getting the extra rest now means you’ll be more prepared to tackle the day."
             "You rest for another thirty minutes and then you wake up feeling absolutely amazing."
 
         "No":
+            $ first_sleep_in = False
+
             $ addonTime = 2
             $ minutes += addonTime
             hide screen clockDissolve
             $ update_clock_function()
             $ display_adding_time_function()
+
             "Sweet."
             "You decide there isn’t a moment to lose and chose to go ahead and tackle the day."
 
@@ -308,11 +643,15 @@ label start:
         "Do you get up, dooming yourself to the day? Or do you just let it ring for a moment longer while you get some rest?"
 
         "Get up":
+            $ second_sleep_in = False
+
             $ addonTime = 2
             $ minutes += addonTime
             $ update_clock_function()
             $ display_adding_time_function()
         "Sleep in some more":
+            $ second_sleep_in = True
+
             $ addonTime = 60
             $ minutes += addonTime
             $ update_clock_function()
@@ -380,20 +719,56 @@ label start:
 
     $ pet_type = renpy.input("What type of pet is it again?")
 
-    if pet_type == "":
-        $ pet_type="rock"
+    if pet_type != "":
+        if pet_type == "dog" or pet_type == "Dog":
+            "Ah yes! A %(pet_type)s! That's what the script I'm not totally making up said."
+            "You know?"
+            "I am so so thankful you chose a dog."
+            "I was going to make a graphic for every possible animal that someone could have as a pet."
+            "HOWEVER, I spent ages on this one of a dog and I never was able to create the rest."
+            "Well, why don't I just show you?"
+            show pet_dog with dissolve
+            "Isn't she a beaut?"
+            "I may have gone a little bit overboard, but no matter!"
+            "Man. I love this dog."
+        if pet_type != "dog" and pet_type != "Dog":
+            "Ah yes!"
+            "A do- wait."
+            "You didn't chose a dog?"
+            "But everyone chooses dogs for pets!"
+            "It's like... the most common thing ever!"
+            show pet_dog with dissolve
+            "What the heck am I supposed to do with this image of your pet {i}dog{/i} that I made??"
+            "I spent literally days making this thing and I can't even use it properly?"
+            "Man, I knew I should have gone for a %(pet_type)s!"
+            "Stupid. Stupid. Stupid."
+            "Oh well."
+            "Enjoy the rest of my stupid story with your %(pet_type)s."
 
-    "Ah yes! A %(pet_type)s! That's what the script I'm not totally making up said."
+    if pet_type == "":
+        "Way not to choose anything."
+        "Fine. I'll just give you something."
+        "How about an... umm.... seahorse riding an enchilada?"
+        "Yeah, waay to crazy."
+        "Just take a dog."
+        $ pet_type="dog"
+        show pet_dog with dissolve
 
     $ pet_name = renpy.input("What’s, er, its name again?")
 
-    "%(pet_name)s? Okay. Fine. It's your life... I guess."
+    if pet_name != "":
+        "%(pet_name)s? Okay. Fine. It's your life... I guess."
 
-    "Good. Good. Glad we have that straightened out."
-
-    "You certainly have a taste in… exotic pets."
+    if pet_name == "":
+        "Wow."
+        "How the heck do you call your %(pet_type)s without a name?"
+        "Ya know what?"
+        "For the sake of the story, I'm just gonna call him Steve for now."
+        $ pet_name = "Steve"
 
     "Anyways, you feed cute little %(pet_name)s and make sure to give 'it' the care it deserves."
+
+    hide pet_dog
 
     "As you put the last finishing touches on your perfect, god-like body, you cook yourself some breakfast and ease yourself into your favorite kitchen chair."
 
@@ -405,6 +780,8 @@ label start:
         "Flick the tv on to your favorite show?"
 
         "Yes":
+            $ watch_tv = True
+
             $ addonTime = 35
             $ minutes += addonTime
             $ update_clock_function()
@@ -414,6 +791,8 @@ label start:
             "In fact, you actually lost an extra ten minutes because you were so engrossed in the show, you didn't notice the time passing."
             "Tough luck, brah."
         "No":
+            $ watch_tv = False
+
             $ addonTime = 25
             $ minutes += addonTime
             $ update_clock_function()
@@ -436,6 +815,8 @@ label start:
         "Do you spend the extra few minutes updating your phone or do you want to hurry up and get to your list?"
 
         "Yes":
+            $ update_phone = True
+
             $ addonTime = 15
             $ minutes += addonTime
             $ update_clock_function()
@@ -448,6 +829,8 @@ label start:
             "Time to make some decisions."
             #Ask to lock phone with combination?
         "No":
+            $ update_phone = False
+
             $ addonTime = 2
             $ minutes += addonTime
             $ update_clock_function()
@@ -497,6 +880,7 @@ label choices:
             jump choices
         "Go to Bed" if not(fileTaxes) and not(friends) and not(shopping) and not(homework):
             jump ending
+            return
 
 label taxes:
     "Wow. Going with the taxes, huh?"
@@ -509,7 +893,8 @@ label taxes:
 
     scene living_room with dissolve
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
     "You move over to your living room and sit down at your desk."
     "Blegh. \n"
@@ -520,6 +905,8 @@ label taxes:
         "Do you want to organize your desk before you start your taxes?"
 
         "Sure!":
+            $ organize_desk = True
+
             $ addonTime = 15
             $ minutes += addonTime
             $ update_clock_function()
@@ -530,6 +917,8 @@ label taxes:
             "While it may have taken a little extra effort up front, doing this will save you time in the long run."
             "Now that you've gotten that out of the way."
         "Who needs neat?":
+            $ organize_desk = False
+
             $ addonTime = 2
             $ minutes += addonTime
             $ update_clock_function()
@@ -558,7 +947,8 @@ label taxes:
 
     scene living_room with fade
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
     "Suddenly a ding noise coming from your desktop breaks you from your dedicated trance that would have made your uncle, who is a monk, incredibly jealous."
 
     "You welcome the distraction and glance at the intrusion on your screen."
@@ -577,6 +967,8 @@ label taxes:
     menu:
         "What would you like to do?"
         "PRESS IT BOI!":
+            $ click_popup = True
+
             $ addonTime = 5
             $ minutes += addonTime
             $ update_clock_function()
@@ -588,6 +980,8 @@ label taxes:
             hide popup
             "Feel safe."
         "Cancel out of that crap":
+            $ click_popup = False
+
             $ addonTime = 20
             $ minutes += addonTime
             $ update_clock_function()
@@ -616,6 +1010,8 @@ label taxes:
         "How would you like to give da goods to your accountant?"
 
         "Email":
+            $ tax_delivery = "Email"
+
             $ addonTime = 20
             $ minutes += addonTime
             $ update_clock_function()
@@ -625,6 +1021,8 @@ label taxes:
             "You took all the files, dropped them into an email, signed it with a few XOXO’s and then sent it off."
             "Done and done."
         "Encrypted Email":
+            $ tax_delivery = "EEmail"
+
             $ addonTime = 65
             $ minutes += addonTime
             $ update_clock_function()
@@ -640,6 +1038,8 @@ label taxes:
             "I have absolutely no clue. You are the one who wrote it."
             "Done and done."
         "Hand-Delivered":
+            $ tax_delivery = "HDelivered"
+
             $ addonTime = 135
             $ minutes += addonTime
             $ update_clock_function()
@@ -687,7 +1087,8 @@ label friends:
 
     scene friends_house with dissolve
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
     "But when you get there, dreams are crushed and hopes are dashed against the harsh harsh rocks of cheapened reality."
     "Your friends never bought the movie! (Thanks, Obama!)"
@@ -711,6 +1112,8 @@ label friends:
         "What would you like to do?"
 
         "Drive to the store all willy-nilly":
+            $ pirate_movie = False
+
             $ addonTime = 60
             $ minutes += addonTime
             $ update_clock_function()
@@ -722,6 +1125,8 @@ label friends:
             "This pretty much makes you become, quite literally, the hero of your friend group (and not to mention the most responsible one. Way to!)"
 
         "Stream it from http://fb.me/7SxplnLq7":
+            $ pirate_movie = True
+
             $ addonTime = 5
             $ minutes += addonTime
             $ update_clock_function()
@@ -759,7 +1164,8 @@ label friends:
 
     scene cave with dissolve
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
     $ addonTime = 25
     $ minutes += addonTime
@@ -851,6 +1257,8 @@ label friends:
         "So, what do you do?"
 
         "Go ahead and download the app":
+            $ download_app = True
+
             $ addonTime = 2
             $ minutes += addonTime
             $ update_clock_function()
@@ -866,6 +1274,8 @@ label friends:
             "You find yourself having a blast throughout the rest of the caving adventure and actually find that you are able to see more things that you ever where able to before because of the versatility of having a light on your phone instead of your head."
 
         "Rely on your friends to get you through the rest of the trip":
+            $ download_app = False
+
             $ addonTime = 145
             $ minutes += addonTime
             $ update_clock_function()
@@ -903,7 +1313,8 @@ label homework:
 
     scene room_day with fade
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
     $ addonTime = 2
     $ minutes += addonTime
@@ -937,6 +1348,8 @@ label homework:
         "What would you like to do?"
 
         "Pirate it (20 min)":
+            $ homework_decision = "Pirate"
+
             $ addonTime = 20
             $ minutes += addonTime
             $ update_clock_function()
@@ -948,6 +1361,8 @@ label homework:
             "Your mom would be incredibly proud!"
 
         "Skip it (2 min)":
+            $ homework_decision = "Skip"
+
             $ addonTime = 2
             $ minutes += addonTime
             $ update_clock_function()
@@ -990,6 +1405,8 @@ label homework:
             jump choices
 
         "Keep searching (1 hr 30 min)":
+            $ homework_decision = "Search"
+
             $ addonTime = 90
             $ minutes += addonTime
             $ update_clock_function()
@@ -1028,6 +1445,8 @@ label homework:
         "Now that all of that is taken care of, did you perchance want to study before you start your homework?"
 
         "Sure. Why not?":
+            $ study = True
+
             $ addonTime = 40
             $ minutes += addonTime
             $ update_clock_function()
@@ -1057,6 +1476,8 @@ label homework:
                 "How do you want to send him your username and password?"
 
                 "Text":
+                    $ netflix_password = "Text"
+
                     $ addonTime = 5
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1067,6 +1488,8 @@ label homework:
                     "You don’t want to get distracted any more than you have to since you are kinda in the flow at the moment."
 
                 "Email":
+                    $ netflix_password = "Email"
+
                     $ addonTime = 15
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1078,6 +1501,8 @@ label homework:
                     "You don’t want to get distracted any more than you have to since you are kinda in the flow at the moment."
 
                 "Encrypted Email":
+                    $ netflix_password = "EEmail"
+
                     $ addonTime = 60
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1091,6 +1516,8 @@ label homework:
                     "It takes time and your brother got a little annoyed at you over the whole thing, but once you sent you username and password you know it was the safest option available."
 
                 "Phone Call":
+                    $ netflix_password = "Call"
+
                     $ addonTime = 45
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1103,6 +1530,8 @@ label homework:
                     "Yup. It was something special."
 
                 "Encrypted Call":
+                    $ netflix_password = "ECall"
+
                     $ addonTime = 90
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1125,6 +1554,8 @@ label homework:
             jump choices
 
         "I'd rather not. What's a \"study\" anyways?":
+            $ study = False
+
             $ addonTime = 2
             $ minutes += addonTime
             $ update_clock_function()
@@ -1151,6 +1582,8 @@ label homework:
                 "How do you want to send him your username and password?"
 
                 "Text":
+                    $ netflix_password = "Text"
+
                     $ addonTime = 5
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1161,6 +1594,8 @@ label homework:
                     "You don’t want to get distracted any more than you have to since you are kinda in the flow at the moment."
 
                 "Email":
+                    $ netflix_password = "Email"
+
                     $ addonTime = 15
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1172,6 +1607,8 @@ label homework:
                     "You don’t want to get distracted any more than you have to since you are kinda in the flow at the moment."
 
                 "Encrypted Email":
+                    $ netflix_password = "EEmail"
+
                     $ addonTime = 60
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1185,6 +1622,8 @@ label homework:
                     "It takes time and your brother got a little annoyed at you over the whole thing, but once you sent you username and password you know it was the safest option available."
 
                 "Phone Call":
+                    $ netflix_password = "Call"
+
                     $ addonTime = 45
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1197,6 +1636,8 @@ label homework:
                     "Yup. It was something special."
 
                 "Encrypted Call":
+                    $ netflix_password = "ECall"
+
                     $ addonTime = 90
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1227,7 +1668,8 @@ label shopping:
 
     scene store with dissolve
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
     "When you get there, you dutifully peruse the pastries and exotic cheeses, gather the necessary ingredients for the strawberry lobster soufflé you’ve been dying to try, and moved towards the checkout counter."
     "You inch closer and closer in your line, until… "
@@ -1252,6 +1694,8 @@ label shopping:
         "What would you like to do?"
 
         "Transfer the money through the store's wifi":
+            $ wifi_transfer = True
+
             $ addonTime = 7
             $ minutes += addonTime
             $ update_clock_function()
@@ -1264,6 +1708,8 @@ label shopping:
             "You continue to cruise through the checkout counter without skipping a beat and are soon out of the store before you know it with all the goat cheese your arms could carry."
 
         "Head back home, get some cash, come back to the store, and check out again":
+            $ wifi_transfer = False
+
             $ addonTime = 100
             $ minutes += addonTime
             $ update_clock_function()
@@ -1280,6 +1726,9 @@ label shopping:
         "Would you like to head to the local coffee shop and snag some caffeine and crumpets?"
 
         "Heck yes! Pure caffeine is the foundation of America!":
+            $ coffee_break = True
+            $ arguing = False
+
             $ addonTime = 45
             $ minutes += addonTime
             $ update_clock_function()
@@ -1295,9 +1744,12 @@ label shopping:
                 "But, but, but, are you sure??"
 
                 "YES! Stop trying to force this on me!":
+                    $ coffee_break = False
+                    $ arguing = True
+
                     "Okay. :("
                     "Woah. \n"
-                    extend "Is this our first fight?"
+                    extend "Now that I think about it, is this our first fight?"
                     "We need to recover from this right away."
                     "You know, I know a great psychiatrist that can help us push through this."
                     extend "TOGETHER!"
@@ -1354,6 +1806,9 @@ label shopping:
                     extend "(Wow, I think that was the most serious line in this whole game.)"
 
                 "You're right! Coffee is now my favorite thing. Let's go!":
+                    $ coffee_break = True
+                    $ arguing = False
+
                     $ addonTime = 45
                     $ minutes += addonTime
                     $ update_clock_function()
@@ -1375,9 +1830,200 @@ label shopping:
 label ending:
     scene room_night with dissolve
     $ create_menu_function(checkListDist)
-    $ show_security_level_function(securityLevel)
+    if second_group:
+        $ show_security_level_function(securityLevel)
 
-    "ending"
+    "Ah man."
+    "What a day."
+    "Am I right, or am I right?"
+
+    if minutes <= 1110:
+        "But woah!"
+        "You did it!"
+        "You did everything on your list and all with time to spare!"
+        "Looks like I love you forever, huh? ;) ;) ;)"
+        "Your following Monday morning was rocking with all that rest you got (and all the stuff you did!)"
+        "Congrats!"
+        "I knew you could do it."
+        "xoxoxo <3"
+
+    if minutes >= 1110:
+        "But oooh... "
+        "Tough luck"
+        "It seems like you took an exorbitant amount of time to get your tasks done today."
+        "I didn't want to do this, but you left me with no choice."
+
+        show losing_face
+
+        ":("
+
+        hide losing_face
+
+        "I'm so sorry."
+        "That hurt me more than it hurt you. Promise."
+
+        "I don't want to tell you what the consequences were on your following Monday morning for gettng to bed so late, but it wasn't pretty."
+        "(for anyone)"
+        "But hey! All is not lost."
+        "You still did some good today."
+
+    "Now let's see what decisions made up your day:"
+
+    scene black with dissolve
+
+    if first_sleep_in or second_sleep_in:
+        if first_sleep_in and not(second_sleep_in):
+            show text "You Slept In." at resultsPlace(xMain, yIncrement)
+            show text "+30" at resultsPlace(xTime, yIncrement)
+            $ yIncrement += .3
+        if second_sleep_in and not(first_sleep_in):
+            show text "You Slept In."
+            show text "+30"
+        if first_sleep_in and second_sleep_in:
+            show text "You Slept In."
+            show text "+60"
+    # pet_type
+    # pet_name
+
+    if watch_tv:
+        show text "You watched Little House on the Prarie"
+        show text "+30"
+    if update_phone:
+        show text "You updated your phone to v1.1"
+        show text "+30"
+
+    if not(fileTaxes):
+        if organize_desk:
+            show text "You organized your messy desk"
+            show text "+30"
+        if not(click_popup):
+            show text "You uninstalled Edgar's Love Trojan from your computer"
+            show text "+30"
+        if tax_delivery == "Email":
+            show text "You delivered your taxes through email"
+            show text "+30"
+        if tax_delivery == "EEmail":
+            show text "You delivered your taxes through an encrypted email"
+            show text "+30"
+        if tax_delivery == "HDelivery":
+            show text "You hand delivered your taxes"
+            show text "+30"
+
+    if not(friends):
+        if pirate_movie:
+            show text "You chose to pirate the movie for your friends"
+            show text "+30"
+        if not(pirate_movie):
+            show text "You chose to buy a copy of the movie for your friends"
+            show text "+30"
+        if download_app:
+            show text "You downloaded the flashlight app"
+            show text "+30"
+        if not(download_app):
+            show text "You had your friends guide you out of the cave"
+            show text "+30"
+
+    if not(homework):
+        if homework_decision == "Pirate":
+            show text "You pirated your textbook"
+            show text "+30"
+        if homework_decision == "Skip":
+            show text "You skipped your homework for the day"
+            show text "+30"
+        if homework_decision == "Search":
+            show text "You found your textbook (and your second pet) and completed your homework"
+            show text "+30"
+        if study:
+            show text "You studied before you homework"
+            show text "+30"
+        if not(study):
+            show text "You didn't study at all before your homework"
+            show text "+30"
+        if netflix_password == "Text":
+            show text "You sent your netflix credentials to your brother through text"
+            show text "+30"
+        if netflix_password == "Email":
+            show text "You sent your netflix credentials to your brother through email"
+            show text "+30"
+        if netflix_password == "EEmail":
+            show text "You sent your netflix credentials to your brother through encrypted email"
+            show text "+30"
+        if netflix_password == "Call":
+            show text "You sent your netflix credentials to your brother through a phone call"
+            show text "+30"
+        if netflix_password == "ECall":
+            show text "You sent your netflix credentials to your brother through an encrypted phone call"
+            show text "+30"
+
+    if not(shopping):
+        if wifi_transfer:
+            show text "You transferred your cash through the wifi hotspot"
+            show text "+30"
+        if wifi_transfer:
+            show text "You picked up some cash from home"
+            show text "+30"
+        if coffee_break:
+            show text "You took a coffee break after shopping"
+            show text "+30"
+        if arguing:
+            show text "You argued with me for awhile"
+            show text "+30"
+
+    if not(fileTaxes) and not(friends) and not(shopping) and not(homework):
+        show text "You completed your whole checklist!!"
+
+    "Fin."
+
+    "One Second as I record all your data."
+
+    $ file_ = open('/Users/justicejuraschek/Documents/School/Senior Year/Summer Research/Experiment Stuff/Renpy/Test Experiment/game/images/results.txt', 'a')
+    $ file_.write("-------------------------------------------" + '\n')
+
+    $ file_.write("---" + player_major + " ---" + '\n')
+
+    $ file_.write("-------------------------------------------" + '\n')
+
+    $ file_.write("Second Group: " + str(second_group) + '\n')
+
+    $ file_.write("Security Level: " + str(securityLevel) + '\n')
+
+    $ file_.write("Finish Time: " + str(minutes) + '\n')
+
+    $ file_.write("----------------Decisions------------------" + '\n')
+
+    $ file_.write("Introduction:------------------------------" + '\n')
+    $ file_.write("Updated Phone: " + str(update_phone) + '\n')
+
+    $ file_.write("Filing Taxes:------------------------------" + '\n')
+    $ file_.write("Installed Trojan from Popup: " + str(click_popup) + '\n')
+    $ file_.write("Delivered Taxes through: " + tax_delivery + '\n')
+
+    $ file_.write("Friends:-----------------------------------" + '\n')
+    $ file_.write("Pirated Movie: " + str(pirate_movie) + '\n')
+    $ file_.write("Downloaded App: " + str(download_app) + '\n')
+
+    $ file_.write("Homework:----------------------------------" + '\n')
+    $ file_.write("Lost Book Decision: " + homework_decision + '\n')
+    $ file_.write("Netflix Password Delivery: " + str(netflix_password) + '\n')
+
+    $ file_.write("Shopping:---------------------------------" + '\n')
+    $ file_.write("Bank Wifi Transfer: " + str(wifi_transfer) + '\n')
+
+    $ file_.write("Did they argue with me? " + str(arguing) + '\n')
+
+    $ file_.write("-------------------------------------------" + '\n')
+    $ file_.write("-------------------------------------------" + '\n')
+
+    $ file_.write('\n')
+    $ file_.write('\n')
+    $ file_.close()
+
+    "I wrote all your data to a file called \"results.txt\" ."
+
+    $ renpy.full_restart()
+
+    return
+
 
 return
 
@@ -1388,7 +2034,7 @@ return
 #     scene black
 #     show text "Taylor University's Computer Science Department Presents..." with dissolve
 #     $ renpy.pause(2.0)
-#     hide text with dissolve
+#     hide text with dissolve(1)
 #
 #     return
 

@@ -1,0 +1,20 @@
+﻿
+Ren'Py 6.99.10.1227 lint report, generated at: Mon Jun 27 15:19:13 2016
+
+game/script.rpy:70 Image img_hadlunch uses file 'lunch_bkg.png', which is not loadable.
+
+game/script.rpy:71 Image img_haddinner uses file 'dinner_bkg.png', which is not loadable.
+
+
+Statistics:
+
+The game contains 679 dialogue blocks, containing 7,388 words and 38,928
+characters, for an average of 10.9 words and 57 characters per block.
+
+The game contains 26 menus, 42 images, and 16 screens.
+
+
+Remember to set config.developer to False before releasing.
+
+Lint is not a substitute for thorough testing. Remember to update Ren'Py
+before releasing. New releases fix bugs and improve compatibility.

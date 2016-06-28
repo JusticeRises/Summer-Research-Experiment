@@ -1,0 +1,41 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/script.rpy", line 862, in script call
+    call taxes from _call_taxes_1
+  File "game/script.rpy", line 867, in script call
+    call friends from _call_friends_1
+  File "game/script.rpy", line 872, in script call
+    call homework from _call_homework_1
+  File "game/script.rpy", line 877, in script call
+    call shopping from _call_shopping_1
+  File "game/script.rpy", line 2005, in script
+    $ file_.write("Netflix Password Delivery: " + netflix_password + '\n')
+  File "game/script.rpy", line 2005, in <module>
+    $ file_.write("Netflix Password Delivery: " + netflix_password + '\n')
+TypeError: cannot concatenate 'str' and 'bool' objects
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "game/script.rpy", line 862, in script call
+    call taxes from _call_taxes_1
+  File "game/script.rpy", line 867, in script call
+    call friends from _call_friends_1
+  File "game/script.rpy", line 872, in script call
+    call homework from _call_homework_1
+  File "game/script.rpy", line 877, in script call
+    call shopping from _call_shopping_1
+  File "game/script.rpy", line 2005, in script
+    $ file_.write("Netflix Password Delivery: " + netflix_password + '\n')
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/ast.py", line 806, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "/Users/justicejuraschek/Downloads/renpy-6.99.10-sdk/renpy/python.py", line 1577, in py_exec_bytecode
+    exec bytecode in globals, locals
+  File "game/script.rpy", line 2005, in <module>
+    $ file_.write("Netflix Password Delivery: " + netflix_password + '\n')
+TypeError: cannot concatenate 'str' and 'bool' objects
+
+Darwin-15.5.0-x86_64-i386-64bit
+Ren'Py 6.99.10.1227
+Test Experiment 0.0
