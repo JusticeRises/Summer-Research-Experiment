@@ -1,4 +1,8 @@
 init:
+    init python:
+        build.directory_name = "TimeTODO!"
+        build.executable_name = "Time TODO!"
+
     #screen size setup
     $ config.screen_width = 800
     $ config.screen_height = 600
@@ -1345,8 +1349,8 @@ label homework:
     menu:
         "What would you like to do?"
 
-        "Pirate it (Medium)":
-            $ homework_decision = "Pirate"
+        "Pirate it (Short)":
+            $ homework_decision = True
 
             $ addonTime = 20
             $ minutes += addonTime
@@ -1358,52 +1362,8 @@ label homework:
             "You found a site called freeepubsformoms.com and were able to get the textbook you needed."
             "Your mom would be incredibly proud!"
 
-        "Skip it (Short)":
-            $ homework_decision = "Skip"
-
-            $ addonTime = 2
-            $ minutes += addonTime
-            $ update_clock_function()
-            $ display_adding_time_function()
-            "Meh. \n"
-            extend "You're right."
-            "Who needs homework anyways?"
-            "You’ve been doing fine in the class up until this point."
-            "What’s one missing assignment?"
-            "Just do as all a favor and find that book later, okay?"
-            "We wouldn’t want you making this decision all the time now."
-
-            menu:
-                "Do you promise me you'll find it later? Pretty Please?"
-
-                "Eh sure.":
-                    "OH THANK YOU THANK YOU THANK YOU."
-                    "Now doesn't that feel nice?"
-                    "Do you feel the power of positive change coursing through your veins?"
-                    "(I think I may be falling in love.)"
-                    "(No. Control yourself.)"
-                    "(You can't have another experience like in Switzerland.)"
-                    "Ahem. I mean. Good job young chap."
-                    "I'm proud of you."
-                    "Now get back to work since you skimping out on your education!"
-                "Nope. Sorry.":
-                    "..."
-                    "......."
-                    "Excuse me?"
-                    "I slave over a hot stove all day for you and this is the thanks I get??"
-                    "I'm ashamed of your upbringing."
-                    "I don't know if I can ever look at you the same way again."
-                    "But I guess that has no bearing on your story, so I'll try and not let it impact anything (loser)."
-                    "NOW GET BACK TO WORK YOU LAZY BUM!"
-                    "Sorry. \n"
-                    extend "I don't know what came over me there."
-                    "Ahem. I mean back to the story."
-
-            $ homework = 0
-            jump choices
-
         "Keep searching (Long)":
-            $ homework_decision = "Search"
+            $ homework_decision = False
 
             $ addonTime = 90
             $ minutes += addonTime
@@ -1865,107 +1825,9 @@ label ending:
         "But hey! All is not lost."
         "You still did some good today."
 
-    "Now let's see what decisions made up your day:"
+    "Thanks for taking the time to play the game!"
 
     scene black with dissolve
-
-    if first_sleep_in or second_sleep_in:
-        if first_sleep_in and not(second_sleep_in):
-            show text "You Slept In." at resultsPlace(xMain, yIncrement)
-            show text "+30" at resultsPlace(xTime, yIncrement)
-            $ yIncrement += .3
-        if second_sleep_in and not(first_sleep_in):
-            show text "You Slept In."
-            show text "+30"
-        if first_sleep_in and second_sleep_in:
-            show text "You Slept In."
-            show text "+60"
-    # pet_type
-    # pet_name
-
-    if watch_tv:
-        show text "You watched Little House on the Prarie"
-        show text "+30"
-    if update_phone:
-        show text "You updated your phone to v1.1"
-        show text "+30"
-
-    if not(fileTaxes):
-        if organize_desk:
-            show text "You organized your messy desk"
-            show text "+30"
-        if not(click_popup):
-            show text "You uninstalled Edgar's Love Trojan from your computer"
-            show text "+30"
-        if tax_delivery == "Email":
-            show text "You delivered your taxes through email"
-            show text "+30"
-        if tax_delivery == "EEmail":
-            show text "You delivered your taxes through an encrypted email"
-            show text "+30"
-        if tax_delivery == "HDelivery":
-            show text "You hand delivered your taxes"
-            show text "+30"
-
-    if not(friends):
-        if pirate_movie:
-            show text "You chose to pirate the movie for your friends"
-            show text "+30"
-        if not(pirate_movie):
-            show text "You chose to buy a copy of the movie for your friends"
-            show text "+30"
-        if download_app:
-            show text "You downloaded the flashlight app"
-            show text "+30"
-        if not(download_app):
-            show text "You had your friends guide you out of the cave"
-            show text "+30"
-
-    if not(homework):
-        if homework_decision == "Pirate":
-            show text "You pirated your textbook"
-            show text "+30"
-        if homework_decision == "Skip":
-            show text "You skipped your homework for the day"
-            show text "+30"
-        if homework_decision == "Search":
-            show text "You found your textbook (and your second pet) and completed your homework"
-            show text "+30"
-        if study:
-            show text "You studied before you homework"
-            show text "+30"
-        if not(study):
-            show text "You didn't study at all before your homework"
-            show text "+30"
-        if netflix_password == "Text":
-            show text "You sent your netflix credentials to your brother through text"
-            show text "+30"
-        if netflix_password == "Email":
-            show text "You sent your netflix credentials to your brother through email"
-            show text "+30"
-        if netflix_password == "EEmail":
-            show text "You sent your netflix credentials to your brother through encrypted email"
-            show text "+30"
-        if netflix_password == "Call":
-            show text "You sent your netflix credentials to your brother through a phone call"
-            show text "+30"
-        if netflix_password == "ECall":
-            show text "You sent your netflix credentials to your brother through an encrypted phone call"
-            show text "+30"
-
-    if not(shopping):
-        if wifi_transfer:
-            show text "You transferred your cash through the wifi hotspot"
-            show text "+30"
-        if wifi_transfer:
-            show text "You picked up some cash from home"
-            show text "+30"
-        if coffee_break:
-            show text "You took a coffee break after shopping"
-            show text "+30"
-        if arguing:
-            show text "You argued with me for awhile"
-            show text "+30"
 
     if not(fileTaxes) and not(friends) and not(shopping) and not(homework):
         show text "You completed your whole checklist!!"
@@ -2001,7 +1863,7 @@ label ending:
     $ file_.write("Downloaded App: " + str(download_app) + '\n')
 
     $ file_.write("Homework:----------------------------------" + '\n')
-    $ file_.write("Lost Book Decision: " + homework_decision + '\n')
+    $ file_.write("Pirate Textbook: " + str(homework_decision) + '\n')
     $ file_.write("Netflix Password Delivery: " + str(netflix_password) + '\n')
 
     $ file_.write("Shopping:---------------------------------" + '\n')
